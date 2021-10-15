@@ -1,6 +1,7 @@
 async function hltbSearch(search: string): unknown {
   let body = new URLSearchParams(`t=games&sorthead=popular&sortd=0&plat=&length_type=main&length_min=&length_max=&v=&f=&g=&detail=&randomize=0`)
   body.set('queryString', search)
+  console.log('searching', search, body)
   
   let result = await fetch(`https://howlongtobeat.com/search_results?page=1`, {
     method: 'POST',
