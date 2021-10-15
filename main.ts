@@ -1,4 +1,4 @@
-import { HowLongToBeatService, HowLongToBeatEntry } from 'howlongtobeat'
+import { HowLongToBeatService, HowLongToBeatEntry } from 'https://cdn.skypack.dev/howlongtobeat'
 
 let hltbService = new HowLongToBeatService()
 
