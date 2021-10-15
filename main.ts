@@ -18,7 +18,7 @@ async function hltbSearch(search: string): SearchResult | null {
   
   let text = await result.text()
   
-  let re = /<ul>.*<li.*<a aria-label="(.+)".*href="game\?id=(\d+)"/si
+  let re = /<ul>.*?<li.*?<a aria-label="(.+?)".*?href="game\?id=(\d+?)"/si
   let matches = re.exec(text)
   if (!matches) return null
   
