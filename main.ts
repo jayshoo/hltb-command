@@ -20,7 +20,7 @@ async function hltb(search: string): Promise<Response> {
 }
 
 addEventListener('fetch', event => {
-  let path = new URL(event.request.url).pathname.slice(1)
+  let path = decodeURIComponent(new URL(event.request.url).pathname.slice(1))
   if (path.startsWith('favicon.ico') return event.respondWith(new Response('', { status: 404 }))
   
   console.log('fetch listener:', path)
