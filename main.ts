@@ -1,12 +1,21 @@
-import { HowLongToBeatService, HowLongToBeatEntry } from 'https://esm.sh/howlongtobeat'
-
-let hltbService = new HowLongToBeatService()
+async function hltbSearch(search: string): unknown {
+  let body = new URLSearchParams(`t=games&sorthead=popular&sortd=0&plat=&length_type=main&length_min=&length_max=&v=&f=&g=&detail=&randomize=0`)
+  body.set('queryString', search)
+  
+  let result = await fetch(`https://howlongtobeat.com/search_results?page=1`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    body
+  })
+  return result
+}
 
 async function hltb(search: string): Promise<Response> {
-  let result = await hltbService.search(search)
-  if (result.length == 0) return new Response(`not found: ${search}`)
+  let result = await hltbSearch(search)
   
-  return new Response(JSON.stringify(result[0]))
+  return new Response(result.body)
 }
 
 addEventListener('fetch', event => {
