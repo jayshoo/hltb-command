@@ -26,12 +26,32 @@ async function hltbSearch(search: string): SearchResult | null {
   return { id, label }
 }
 
+interface Details {
+  avg: string
+}
+
+async function hltbDetails(id: string): Details {
+  let result = await fetch(`https://howlongtobeat.com/game?id=${id}`)
+  
+  let text = await result.text()
+  
+  let re = /<td>Main Story<\/td>.*?<td.*?<td>(.+?)<\/td>/si
+  let matches = re.exec(text)
+  if (!matches) return null
+  let [_, avg] = matches
+  return { avg }
+}
+
 async function hltb(search: string): Promise<Response> {
   let searchResult = await hltbSearch(search)
   if (!searchResult)
     return new Response(`Couldn't find ${search}. Soz`)
   
-  return new Response(`Found ${searchResult.label} with id=${searchResult.id}`)
+  let details = await hltbDetails(searchResult.id)
+  if (!details)
+    return new Response(`Couldn't load hltb game=${searchResult.id}. Soz`)
+  
+  return new Response(`HowLongToBeat for ${searchResult.label} // avg: ${details.avg}. (searched for ${search})`)
 }
 
 addEventListener('fetch', event => {
