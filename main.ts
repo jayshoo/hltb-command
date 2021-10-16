@@ -55,7 +55,7 @@ async function hltb(search: string): Promise<Response> {
   if (!details)
     return new Response(`Couldn't load hltb for {game=${searchResult.label} id=${searchResult.id}}. Soz`)
   
-  return new Response(`How long to beat ${searchResult.label}: ${details.rushed} .. ${details.average} .. ${details.leisure} (rushed .. average .. leisure)`)
+  return new Response(`How long to beat ${searchResult.label}: ${details.rushed} rushed, ${details.average} average, ${details.leisure} leisure`)
 }
 
 addEventListener('fetch', event => {
