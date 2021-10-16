@@ -3,7 +3,7 @@ interface SearchResult {
   label: string
 }
 
-async function hltbSearch(search: string): SearchResult | null {
+async function hltbSearch(search: string): Promise<SearchResult | null> {
   let body = new URLSearchParams(`t=games&sorthead=popular&sortd=0&plat=&length_type=main&length_min=&length_max=&v=&f=&g=&detail=&randomize=0`)
   body.set('queryString', search)
   console.log('searching', search, body)
@@ -27,19 +27,23 @@ async function hltbSearch(search: string): SearchResult | null {
 }
 
 interface Details {
-  avg: string
+  average: string
+  median: string
+  rushed: string
+  leisure: string
 }
 
-async function hltbDetails(id: string): Details {
+async function hltbDetails(id: string): Promise<Details | null> {
   let result = await fetch(`https://howlongtobeat.com/game?id=${id}`)
   
   let text = await result.text()
   
-  let re = /<td>Main Story<\/td>.*?<td.*?<td>(.+?)<\/td>/si
+  let re = /<td>Main Story<\/td>.*?<td.*?<td>(.+?)\s?<\/td>.*?<td>(.+?)\s?<\/td>.*?<td>(.+?)\s?<\/td>.*?<td>(.+?)\s?<\/td>/si
   let matches = re.exec(text)
   if (!matches) return null
-  let [_, avg] = matches
-  return { avg }
+
+  let [_, average, median, rushed, leisure ] = matches
+  return { average, median, rushed, leisure }
 }
 
 async function hltb(search: string): Promise<Response> {
@@ -49,9 +53,9 @@ async function hltb(search: string): Promise<Response> {
   
   let details = await hltbDetails(searchResult.id)
   if (!details)
-    return new Response(`Couldn't load hltb game=${searchResult.id}. Soz`)
+    return new Response(`Couldn't load hltb for {game=${searchResult.label} id=${searchResult.id}}. Soz`)
   
-  return new Response(`HowLongToBeat for ${searchResult.label} // avg: ${details.avg}. (searched for ${search})`)
+  return new Response(`How long to beat ${searchResult.label}: ${details.rushed} .. ${details.average} .. ${details.leisure} (rushed .. average .. leisure)`)
 }
 
 addEventListener('fetch', event => {
