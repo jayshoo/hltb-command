@@ -55,8 +55,6 @@ async function hltb(search: string): Promise<Response> {
   if (!details)
     return new Response(`Couldn't load hltb for {game=${searchResult.label} id=${searchResult.id}}. Soz`)
   
-  if (search == 'little nightmares')
-  return new Response(`How long to beat ${searchResult.label}: ${details.rushed} rushed, ${details.average} average, 1${details.leisure} Jugg-speed`)
   return new Response(`How long to beat ${searchResult.label}: ${details.rushed} rushed, ${details.average} average, ${details.leisure} leisure`)
 }
 
