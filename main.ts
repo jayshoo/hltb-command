@@ -11,7 +11,8 @@ async function hltbSearch(search: string): Promise<SearchResult | null> {
   let result = await fetch(`https://howlongtobeat.com/search_results?page=1`, {
     method: 'POST',
     headers: {
-      'content-type': 'application/x-www-form-urlencoded'
+      'content-type': 'application/x-www-form-urlencoded',
+      'referer': 'https://howlongtobeat.com/'
     },
     body
   })
