@@ -6,9 +6,7 @@ interface SearchResult {
 async function hltbSearch(search: string): Promise<SearchResult | null> {
   let body = JSON.stringify({
     "searchType": "games",
-    "searchTerms": [
-      search
-    ],
+    "searchTerms": search.split(/\s+/),
     "searchPage": 1,
     "size": 20,
     "searchOptions": {
