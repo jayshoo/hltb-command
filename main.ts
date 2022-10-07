@@ -79,6 +79,9 @@ async function hltbDetails(id: string): Promise<Details | null> {
     return { average, median, rushed, leisure }
   }
   
+  console.log('no regexp matches in game detail page')
+  console.log(text)
+  
   return null
 }
 
