@@ -5,40 +5,37 @@ interface SearchResult {
 
 async function hltbSearch(search: string): Promise<SearchResult | null> {
   let body = JSON.stringify({
-  "searchType": "games",
-  "searchTerms": [
-    search
-  ],
-  "searchPage": 1,
-  "size": 20,
-  "searchOptions": {
-    "games": {
-      "userId": 0,
-      "platform": "",
-      "sortCategory": "popular",
-      "rangeCategory": "main",
-      "rangeTime": {
-        "min": 0,
-        "max": 0
+    "searchType": "games",
+    "searchTerms": [
+      search
+    ],
+    "searchPage": 1,
+    "size": 20,
+    "searchOptions": {
+      "games": {
+        "userId": 0,
+        "platform": "",
+        "sortCategory": "popular",
+        "rangeCategory": "main",
+        "rangeTime": {
+          "min": 0,
+          "max": 0
+        },
+        "gameplay": {
+          "perspective": "",
+          "flow": "",
+          "genre": ""
+        },
+        "modifier": ""
       },
-      "gameplay": {
-        "perspective": "",
-        "flow": "",
-        "genre": ""
+      "users": {
+        "sortCategory": "postcount"
       },
-      "modifier": ""
-    },
-    "users": {
-      "sortCategory": "postcount"
-    },
-    "filter": "",
-    "sort": 0,
-    "randomizer": 0
-  }
-})
-  new URLSearchParams(`t=games&sorthead=popular&sortd=0&plat=&length_type=main&length_min=&length_max=&v=&f=&g=&detail=&randomize=0`)
-  body.set('queryString', search)
-  console.log('searching', search, body)
+      "filter": "",
+      "sort": 0,
+      "randomizer": 0
+    }
+  })
   
   let result = await fetch(`https://howlongtobeat.com/api/search`, {
     method: 'POST',
