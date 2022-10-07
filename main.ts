@@ -37,7 +37,7 @@ async function hltbSearch(search: string): Promise<SearchResult | null> {
     }
   })
   
-  let result = await fetch(`https://howlongtobeat.com/api/search`, {
+  let search = await fetch(`https://howlongtobeat.com/api/search`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -46,13 +46,12 @@ async function hltbSearch(search: string): Promise<SearchResult | null> {
     body
   })
   
-  let text = await result.text()
-  
-  let re = /<ul>.*?<li.*?<a aria-label="(.+?)".*?href="game\?id=(\d+?)"/si
-  let matches = re.exec(text)
-  if (!matches) return null
-  
-  let [_, label, id] = matches
+  let result = await search.json()
+  if (result.count <= 0) return null
+  let firstResult = result.data[0]
+  if (!firstResult) return null
+  let id = firstResult.game_id
+  let label = firstResult.game_name
   return { id, label }
 }
 
