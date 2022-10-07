@@ -67,10 +67,19 @@ async function hltbDetails(id: string): Promise<Details | null> {
   
   let re = /<td>Main Story<\/td>.*?<td.*?<td>(.+?)\s?<\/td>.*?<td>(.+?)\s?<\/td>.*?<td>(.+?)\s?<\/td>.*?<td>(.+?)\s?<\/td>/si
   let matches = re.exec(text)
-  if (!matches) return null
-
-  let [_, average, median, rushed, leisure ] = matches
-  return { average, median, rushed, leisure }
+  if (matches) {
+    let [_, average, median, rushed, leisure ] = matches
+    return { average, median, rushed, leisure }
+  }
+  
+  let re = /<td>All Playstyles<\/td>.*?<td.*?<td>(.+?)\s?<\/td>.*?<td>(.+?)\s?<\/td>.*?<td>(.+?)\s?<\/td>.*?<td>(.+?)\s?<\/td>/si
+  let matches = re.exec(text)
+  if (matches) {
+    let [_, average, median, rushed, leisure ] = matches
+    return { average, median, rushed, leisure }
+  }
+  
+  return null
 }
 
 async function hltb(search: string): Promise<Response> {
