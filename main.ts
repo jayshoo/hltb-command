@@ -4,14 +4,46 @@ interface SearchResult {
 }
 
 async function hltbSearch(search: string): Promise<SearchResult | null> {
-  let body = new URLSearchParams(`t=games&sorthead=popular&sortd=0&plat=&length_type=main&length_min=&length_max=&v=&f=&g=&detail=&randomize=0`)
+  let body = JSON.stringify({
+  "searchType": "games",
+  "searchTerms": [
+    search
+  ],
+  "searchPage": 1,
+  "size": 20,
+  "searchOptions": {
+    "games": {
+      "userId": 0,
+      "platform": "",
+      "sortCategory": "popular",
+      "rangeCategory": "main",
+      "rangeTime": {
+        "min": 0,
+        "max": 0
+      },
+      "gameplay": {
+        "perspective": "",
+        "flow": "",
+        "genre": ""
+      },
+      "modifier": ""
+    },
+    "users": {
+      "sortCategory": "postcount"
+    },
+    "filter": "",
+    "sort": 0,
+    "randomizer": 0
+  }
+})
+  new URLSearchParams(`t=games&sorthead=popular&sortd=0&plat=&length_type=main&length_min=&length_max=&v=&f=&g=&detail=&randomize=0`)
   body.set('queryString', search)
   console.log('searching', search, body)
   
-  let result = await fetch(`https://howlongtobeat.com/search_results?page=1`, {
+  let result = await fetch(`https://howlongtobeat.com/api/search`, {
     method: 'POST',
     headers: {
-      'content-type': 'application/x-www-form-urlencoded',
+      'content-type': 'application/json',
       'referer': 'https://howlongtobeat.com/'
     },
     body
@@ -35,7 +67,7 @@ interface Details {
 }
 
 async function hltbDetails(id: string): Promise<Details | null> {
-  let result = await fetch(`https://howlongtobeat.com/game?id=${id}`)
+  let result = await fetch(`https://howlongtobeat.com/game/${id}`)
   
   let text = await result.text()
   
