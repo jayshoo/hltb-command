@@ -37,7 +37,7 @@ async function hltbSearch(search: string): Promise<SearchResult | null> {
     }
   })
   
-  let search = await fetch(`https://howlongtobeat.com/api/search`, {
+  let apiSearch = await fetch(`https://howlongtobeat.com/api/search`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -46,7 +46,7 @@ async function hltbSearch(search: string): Promise<SearchResult | null> {
     body
   })
   
-  let result = await search.json()
+  let result = await apiSearch.json()
   if (result.count <= 0) return null
   let firstResult = result.data[0]
   if (!firstResult) return null
