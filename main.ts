@@ -72,15 +72,12 @@ async function hltbDetails(id: string): Promise<Details | null> {
     return { average, median, rushed, leisure }
   }
   
-  let re2 = /<td>All Playstyles<\/td>.*?<td.*?<td>(.+?)\s?<\/td>.*?<td>(.+?)\s?<\/td>.*?<td>(.+?)\s?<\/td>.*?<td>(.+?)\s?<\/td>/si
-  let matches2 = re.exec(text)
+  let re2 = /<td>All PlayStyles<\/td>.*?<td.*?<td>(.+?)\s?<\/td>.*?<td>(.+?)\s?<\/td>.*?<td>(.+?)\s?<\/td>.*?<td>(.+?)\s?<\/td>/si
+  let matches2 = re2.exec(text)
   if (matches2) {
-    let [_, average, median, rushed, leisure ] = matches
+    let [_, average, median, rushed, leisure ] = matches2
     return { average, median, rushed, leisure }
   }
-  
-  console.log('no regexp matches in game detail page')
-  console.log(text)
   
   return null
 }
